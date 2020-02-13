@@ -1,7 +1,5 @@
-Hello and welcome to this blog. Edit the `index.md` file to change this content. All pages on the blog, including this one, use [Markdown](https://guides.github.com/features/mastering-markdown/). You can include images:
+# Ian Preston's blog
 
-![Image of fast.ai logo](images/logo.png)
+I'm playing around with [fast_template](https://www.fast.ai/2020/01/16/fast_template/) to make a blog.
 
-## This is a title
-
-And you can include links, like this [link to fast.ai](https://www.fast.ai). Posts will appear after this file. 
+I like data, economics and Linux (in no particular order) so this will probably be about that stuff.
