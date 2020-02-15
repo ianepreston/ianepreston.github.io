@@ -175,11 +175,11 @@ First type in the path to the server, optionally add the name of the specific da
 
 #### Vim integration
 
-If you don't know what vim is, or do know and are scared of it, just skip this step. If you've trained yourself to use vim keyboard shortcuts though, you're definitely going to want that in your editor. Previously I was using the Vim extension, which was decent, but I did find a little laggy. Recently I've switched to neovim. It takes more configuration, but ultimately gives a nicer experience.
+If you don't know what vim is, or do know and are scared of it, just skip this step. If you've trained yourself to use vim keyboard shortcuts though, you're definitely going to want that in your editor. Previously I was using the Vim extension, which was decent, but I did find a little laggy. Recently I've switched to neovim. It takes a little more up front configuration, but ultimately gives a nicer experience. For one thing, it's more responsive. For another, when in insert mode all the regular VS code shortcuts work. Finally, when you enter commands they show up in the big box at the top of the VS code window like other VS code commands, rather than down in the tiny bar at the bottom. That's particularly nice when you're trying to write out a big find replace or something.
 
 First, grab the [Neovim installer](https://github.com/neovim/neovim/wiki/Installing-Neovim) and extract it somewhere (maybe your home folder).
 
-Next install the Neo Vim extension, and hit the little cog beside it to open its configuration. Head down to the NeoVim path component and paste in the path to nvim.exe (should be in the bin folder that you just extracted). Restart VS code and you should have vim bindings.
+Next install the Neo Vim extension, and hit the little cog beside it to open its configuration. Head down to the NeoVim path component and paste in the path to nvim.exe (should be in the bin folder that you just extracted). Restart VS code and you should have vim bindings. You could also add the ```bin``` folder from your download to your ```PATH```, definitely a good idea if you want to use neovim directly. You could go further and alias vim to neovim in git bash (just like in the last part of the miniconda installation instructions).
 
 The last part is to have Neovim use the system clipboard as its register so you can copy and paste between VS code and other applications.
 
@@ -201,25 +201,7 @@ set clipboard+=unnamedplus
 
 #### Remote development
 
-If there are any remote machines you connect to from VS Code (or docker containers, but I don't use them right now so that's beyond the scope of this tutorial) you'll need to set up remote connections.
-
-The first thing is to grab the remote development extension pack. Once that's installed you'll have a new remote icon on your sidebar:
-
-![remote](img/vscode_09_remote.PNG).
-
-Once that's there, click the link, and choose what type of remote connection you want. In my case it's SSH.
-
-![ssh remote](img/vscode_10_remote.PNG)
-
-From there you can click the cog to open up a plain text file for your remotes. In my case there's one machine that I want to log into with my windows domain name so my config looks like this:
-
-```pure
-Host tron_dom
-    HostName 10.2.249.64
-    User WCBDOM01\E975360
-```
-
-After that you can connect to the host from the sidebar, the little icon in the lower left of the screen, or using VS codes autocomplete menu.
+If you're planning to do "remote" development, where remote can also mean docker containers or anything running in WSL, you will want to install the remote development extension pack. You could pick and choose just the ones you need, or grab the extension that ships the whole pack. Not a big deal either way.
 
 ### User settings
 
