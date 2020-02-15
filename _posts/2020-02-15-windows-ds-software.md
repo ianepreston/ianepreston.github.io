@@ -205,7 +205,7 @@ If you're planning to do "remote" development, where remote can also mean docker
 
 ### User settings
 
-VS code comes mostly with sensible defaults, but there are a few things I like to change. In VS code hit ```F1``` and type ```Open settings (JSON)```. Below are my settings, minus the stuff that just got added through configuring the extensions described above:
+VS code comes mostly with sensible defaults, but there are a few things I like to change. In VS code hit ```F1``` and type ```Open settings (JSON)```. If you don't see that option (it didn't pop up for me the first time I tried it) just open settings and look for a setting that tells you to update it in ```settings.json```. Below are my settings, minus the stuff that just got added through configuring the extensions described above:
 
 ```json
 {
@@ -218,7 +218,7 @@ VS code comes mostly with sensible defaults, but there are a few things I like t
     "editor.acceptSuggestionOnEnter": "off",
     "editor.minimap.enabled": false,
     "explorer.confirmDelete": false,
-    "terminal.integrated.shell.windows": "C:\\Users\\e975360\\AppData\\Local\\Programs\\Git\\bin\\bash.exe",
+    "terminal.integrated.shell.windows": "C:\\Program Files\\Git\\bin\\bash.exe",
     "terminal.integrated.env.windows": {
         "CHERE_INVOKING": "1"
     },
@@ -269,15 +269,12 @@ VS code comes mostly with sensible defaults, but there are a few things I like t
 
 Most of the settings have fairly clear names, and if you put them in your ```settings.json``` you'll get a little mouseover tip that will tell you what they do. 
 
-**Note**: my git bash path is specific to my username (since it's a local install) you'll have to modify that line to match where you have git bash installed.
+**Note**: If your git bash is a user level install, or you picked somewhere else to install it you'll have to modify that path.
 
 ### Further Resources
 
 There's tons of stuff to learn about VS code to make it super handy. At a minimum, check out their [keyboard shortcuts](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf). I'm collecting other useful resources (with a decent amount of overlap with vim stuff) on [my tagpacker](https://tagpacker.com/user/ian.preston?t=vs_code).
 
-
-
-
 ## Wrapping up
 
-That's about it! After following this guide you should have a very comfy software setup in Windows to do data science from. 
+That's about it! After following this guide you should have a very comfy software setup in Windows to do data science from.
