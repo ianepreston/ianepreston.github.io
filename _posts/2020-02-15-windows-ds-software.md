@@ -169,36 +169,9 @@ If you're getting data from a MSSQL database then this is great. It adds another
 
 You can install it by searching for ```mssql``` in the extensions sidebar. Once it's installed you'll get a new icon on your sidebar at the bottom:
 
-![mssql ext](img/vscode_03_mssql.PNG) The first time you click it it will take a while, and do some installations in the background. After that you can click the "Add Connection" button at the top and add a path to a database. For us here the two obvious ones are the Data Warehouse and the Analytics DataStore:
+The first time you click it it will take a while, and do some installations in the background. After that you can click the "Add Connection" button at the top and add a path to a database.
 
-First type in the path to the server (plain text versions will be included below in this document for you to copy paste):
-
-![add dw 1](img/vscode_04_dw.PNG)
-
-Optionally add the name of the specific database. For the DW there's only one database we connect to so you might as well
-
-![add dw 2](img/vscode_05_dw2.PNG)
-
-Login type is integrated since we authenticate to this server with Windows credentials
-
-![add dw 3](img/vscode_06_dw3.PNG)
-
-Finally, give it a nice name
-
-![add dw 4](img/vscode_07_dw4.PNG)
-
-If everything worked you should have something like this:
-
-![add dw 5](img/vscode_08_dw5.PNG)
-
-Here are the text versions of those inputs for the data warehouse:
-
-```pure
-PSQLDWR1\PSQLDWR1
-DW_Reporting_Prod_1
-```
-
-You can follow the same steps for the Analytics data store, except it has multiple databases we might want to access, so leave that part blank and just add the server at ```USQLMLS1\USQLMLS1```
+First type in the path to the server, optionally add the name of the specific database. If you use your windows credentials to connect you can use integrated, which is nice. Finally, give it a nice name.
 
 #### Vim integration
 
