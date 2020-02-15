@@ -40,45 +40,45 @@ Like any sort of coding work, data science is done best under version control, a
 
 git does not require any special admin privileges to install (although for some reason uninstalling it seems to require admin, so be aware of that). Go to the [Git download page](https://git-scm.com/download/win) and Choose 64-bit Git for Windows Setup and run the installer. First part is to read (if you want) and accept the license:
 
-![](/images/windows_ds_software/git_01.PNG "git license")
+![](/images/windows_ds_software/git_01.png "git license")
 
 The default path should be fine, but take note of where it's being installed because we'll need to point VS code to it later
 
-![](/images/windows_ds_software/git_02.PNG "git path")
+![](/images/windows_ds_software/git_02.png "git path")
 
 On the components selection screen I deselect git gui because I only ever want the terminal. If you like or want to try the gui you could leave that checked. I also check "Check daily for Git for Windows updates" because I don't want to have to remember to update.
 
-![](/images/windows_ds_software/git_03.PNG "git components")
+![](/images/windows_ds_software/git_03.png "git components")
 
 Next you'll be prompted to make a start menu folder, just click next.
 
 The next thing you'll be prompted for is for the default editor. If you're comfortable with vim/nano/whatever you can change it to that. I'm going to use VS code because it's the editor I'll be using for everything else, and I'm going to add vim bindings to it anyway:
 
-![](/images/windows_ds_software/git_04.PNG "git editor")
+![](/images/windows_ds_software/git_04.png "git editor")
 
 At the next prompt leave it on the default, we want VS code and other tools to know git exists.
 
-![](/images/windows_ds_software/git_05.PNG "git path")
+![](/images/windows_ds_software/git_05.png "git path")
 
 For the SSH executable we'll use openssh. Later we'll configure remote development with VS code and also have to use openssh there. If you use and like putty you could swap this out, but note that VS code (at least at time of this writing) doesn't support putty, so you'll have to set things up separately there.
 
-![](/images/windows_ds_software/git_06.PNG "git ssh")
+![](/images/windows_ds_software/git_06.png "git ssh")
 
 Next up is the https transport backend. If this is a personal machine you can probably just leave it on OpenSSL. If it's a work computer you should probably switch to "Use the native Windows Secure Channel library". For example, at work my git repos are hosted on an on prem TFS server, so I definitely want my AD Domain service to validate me.
 
-![](/images/windows_ds_software/git_07.PNG "git ssl")
+![](/images/windows_ds_software/git_07.png "git ssl")
 
 At the next prompt we again want the default. Windows and *NIX systems use different symbols to denote line endings. This setting will automatically convert to the Windows format when you pull down changes, but leave them *NIX style when you push them up. This will ensure everyone is getting the correct format of text file when pulling down changes.
 
-![](/images/windows_ds_software/git_08.PNG "git line endings")
+![](/images/windows_ds_software/git_08.png "git line endings")
 
 Leave the console on MinTTY, it works nicer than the other. I thought you might need it to be the Windows default console to integrate with VS code but that is not the case. In fact it seems to break console integration with VS code. Go figure.
 
-![](/images/windows_ds_software/git_09.PNG "git terminal")
+![](/images/windows_ds_software/git_09.png "git terminal")
 
 Finally I just left all the extra options on default.
 
-![](/images/windows_ds_software/git_10.PNG "git extras")
+![](/images/windows_ds_software/git_10.png "git extras")
 
 ### Customizing git
 
@@ -126,15 +126,15 @@ Next up we install Miniconda to handle python and all its libraries for data sci
 
 I've found that even if I do a user level install I still get prompted for admin escalation during environment management. Might as well do a system level install.
 
-![](/images/windows_ds_software/conda_01.PNG "conda user")
+![](/images/windows_ds_software/conda_01.png "conda user")
 
 Default install path should be fine.
 
-![](/images/windows_ds_software/conda_02.PNG "conda path")
+![](/images/windows_ds_software/conda_02.png "conda path")
 
 Check the box to add Anaconda to the system PATH environment variable, this will allow you to use conda from git bash.
 
-![](/images/windows_ds_software/conda_03.PNG "conda syspath")
+![](/images/windows_ds_software/conda_03.png "conda syspath")
 
 Finally, open up git bash and run ```conda init bash```. You'll be prompted for admin privileges, but once you're done you should be all set to use conda commands from git bash.
 
