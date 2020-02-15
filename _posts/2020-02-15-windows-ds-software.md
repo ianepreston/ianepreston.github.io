@@ -157,20 +157,6 @@ That should take care of it for conda installation
 
 Conda environment management is a big separate topic. [Their documentation](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html) is really good, and I refer to it regularly. A write up on my particular environment management strategy will get linked in here if/when I write it up.
 
-
-
-## Install Putty
-
-Install might be a stretch, since you can just download one .exe file for this, here's the [Putty main page](https://www.putty.org/). From there you can head to the download page and grab the 64 bit putty.exe link. Save it on your desktop or somewhere handy. From there we just have to launch putty and configure a host.
-
-![putty 1](img/putty_01_main.PNG)
-
-On the main page you can add in a host name (or IP in this case) and give it a name to save the session info. There's just one other thing to update (and save for the session)
-
-![putty 2](img/putty_02_tunnels.PNG)
-
-You're probably going to want to run jupyter on your remote host. This setting will forward port 8888 (where juypter is hosted) from your remote machine to your local system. Once that's set up if you start jupyter from a putty session you can use the localhost link that shows up in the command in your local browser and get a full jupyter session. Neat!
-
 ## Back to VS code
 
 ### Extra extensions
