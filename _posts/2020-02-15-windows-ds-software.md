@@ -126,20 +126,20 @@ Next up we install Miniconda to handle python and all its libraries for data sci
 
 I've found that even if I do a user level install I still get prompted for admin escalation during environment management. Might as well do a system level install.
 
-![conda setup 1](img/conda_01_all_users.PNG)
+![](/images/windows_ds_software/conda_01.PNG "conda user")
 
 Default install path should be fine.
 
-![conda setup 2](img/conda_02_path.PNG)
+![](/images/windows_ds_software/conda_02.PNG "conda path")
 
 Check the box to add Anaconda to the system PATH environment variable, this will allow you to use conda from git bash.
 
-![conda setup 3](img/conda_03_syspath.PNG)
+![](/images/windows_ds_software/conda_03.PNG "conda syspath")
 
 Finally, open up git bash and run ```conda init bash```. You'll be prompted for admin privileges, but once you're done you should be all set to use conda commands from git bash.
 
 There's one last thing we'll have to do. VS code expects ```activate``` to be the command used to activate a conda environment, but in git bash it's actually ```source activate```. What we do is add an alias in the bash profile so that running ```activate``` translates to ```source activate```.
-In ```%UserProfile%``` you should already have a file named ```.bash_profile``` from when you ran ```conda init bash```. Add a line with the alias below. Here's what my full file looks like:
+In ```%UserProfile%``` you might already have a file named ```.bash_profile``` from when you ran ```conda init bash```. Add a line with the alias below. Here's what my full file looks like:
 
 ```sh
 # >>> conda initialize >>>
@@ -148,6 +148,8 @@ eval "$('/c/ProgramData/Miniconda3/Scripts/conda.exe' 'shell.bash' 'hook')"
 # <<< conda initialize <<<
 alias activate="source activate"
 ```
+
+Note, if you don't already have the file, then similar to the global gitignore section, you can run ```touch ~/.bash_profile``` to create the file, and then update it in whichever editor you want. You only have to add the ```alias part```, if the conda initialize stuff isn't there don't worry about it. It wasn't on my home computer, it was on my work one. I'm not sure why.
 
 That should take care of it for conda installation
 
