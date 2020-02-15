@@ -7,6 +7,8 @@ There are lots of great guides for setting up an environment to do data science.
 
 This guide is intended to be useful for anyone trying to get set up for data science in python on windows. I think most of the steps are fairly generic, and I'll make an effort to highlight the parts that are more opinionated. The sections below will go over the core software that will need to be installed, and some handy customizations.
 
+{:toc}
+
 ## Install VS Code
 
 First we need an editor to actually work in. I'm a huge fan of VS code for this. It's lightweight, extensible, free and open source, and very actively developed. Every month there's a new release with some fancy thing that makes my life easier. 
