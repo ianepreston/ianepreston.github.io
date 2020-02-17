@@ -7,6 +7,8 @@ There are lots of great guides for setting up an environment to do data science.
 
 This guide is intended to be useful for anyone trying to get set up for data science in python on windows. I think most of the steps are fairly generic, and I'll make an effort to highlight the parts that are more opinionated. The sections below will go over the core software that will need to be installed, and some handy customizations.
 
+*edit 2020-02-17* - I realized I wanted make as well, so I added a section on that.
+
 1. TOC
 {:toc}
 
@@ -118,6 +120,21 @@ This will actually work exactly the same as Linux, which is nice. GitHub has nic
 #### SSH note
 
 I had an old install of putty when I first set up git bash. Even though I told it to use OpenSSH I guess I still had putty set somewhere in my environment. I had to modify the ```GIT_SSH``` environment variable for my system to point to the git ssh utility, which in my case was at ```C:\Program Files\Git\usr\bin\ssh```.
+
+### Additional utilities
+
+Git bash has decent functionality out of the box, but there may be additional utilities you want to install. In my particular case, I'd like to be able to use ```make``` in my projects. Thanks to [this gist](https://gist.github.com/evanwill/0207876c3243bbb6863e65ec5dc3f058#file-gitbash_windows-md) I found that it's pretty easy to do. I'll reproduce the ```make``` install instructions here, but all credit for this part goes to the original author.
+
+Wherever you installed git bash there should be a ```mingw64``` folder. My home machine did a system install, so I found it in ```C:\Program Files\Git\mingw64```, but my work one was a user level install, so that one ended up in ```%UserProfile%\AppData\Local\Programs\Git\mingw64```. You can always find where it is by right clicking the shortcut to git bash in your start menu and hitting properties, that will show you the path.
+
+> Keep in mind you can easy add `make`, but it doesn't come packaged with all the standard UNIX build toolchain--so you will have to ensure those are installed *and* on your PATH, or you will encounter endless error messages.
+
+* Go to [ezwinports](https://sourceforge.net/projects/ezwinports/files/).
+* Download `make-4.1-2-without-guile-w32-bin.zip` (get the version without guile).
+* Extract zip.
+* Copy the contents to your `Git\mingw64\` merging the folders, but do NOT overwrite/replace any existing files.
+
+That was all I had to do to make the basic makefiles that I wanted to use. As noted above, if you want to actually build c packages or something your process will likely be more complex. For a great beginner friendly intro to makefiles in the context of python projects, check out [calm code](https://calmcode.io/makefiles/the-problem.html).
 
 ### Further reading
 
