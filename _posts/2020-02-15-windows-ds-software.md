@@ -7,7 +7,7 @@ There are lots of great guides for setting up an environment to do data science.
 
 This guide is intended to be useful for anyone trying to get set up for data science in python on windows. I think most of the steps are fairly generic, and I'll make an effort to highlight the parts that are more opinionated. The sections below will go over the core software that will need to be installed, and some handy customizations.
 
-*edit 2020-02-17* - I realized I wanted make as well, so I added a section on that.
+*edit 2020-02-17* - I realized I wanted make as well, so I added a section on that. Also made note of an issue with launching interactive python from git bash, as well as solutions.
 
 1. TOC
 {:toc}
@@ -135,6 +135,14 @@ Wherever you installed git bash there should be a ```mingw64``` folder. My home 
 * Copy the contents to your `Git\mingw64\` merging the folders, but do NOT overwrite/replace any existing files.
 
 That was all I had to do to make the basic makefiles that I wanted to use. As noted above, if you want to actually build c packages or something your process will likely be more complex. For a great beginner friendly intro to makefiles in the context of python projects, check out [calm code](https://calmcode.io/makefiles/the-problem.html).
+
+
+### Console bug
+
+There's an issue with launching the regular python interpreter from git bash. You can read about it on this [stackoverflow thread](https://stackoverflow.com/questions/32597209/python-not-working-in-the-command-line-of-git-bash). Basically there are two easy options (without messing up your ability to easily use different conda environments)
+
+* instead of ```python``` call ```python -i``` to get an interactive shell
+* ```conda install ipython``` and use that instead. This is my preference as I prefer the ipython console anyway.
 
 ### Further reading
 
