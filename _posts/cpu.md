@@ -1,6 +1,5 @@
 # How do CPU speeds work these days?
 
-
 1. TOC
 {:toc}
 
@@ -20,14 +19,12 @@ So these are the processors up for grabs:
 - Core i3-4005U 1.7GHz w/3MB cache - processor on the minicomputer I'm going to load pfsense on.
 - ARM Cortex-A72 1.5GHz w/1MB cache - Processor on my raspberry pi 4
 - ARM Cortex-A53 1.2GHz - Processor on my raspberry pi 3
-- Atheros QCA9558 0.72GHz - processor on my router
 
 So, first couple notes. This is a wide array of processors. Everything from a weak commercial router CPU, to a ten year old desktop CPU, to a pretty decent and new desktop CPU. I'm hoping having this much variety will help explain how to understand how to evaluate this. The second note is that clearly clock speed alone is not enough. The Athlon II is ten years old and was cheap when I bought it. If I just look at clock speed my Ryzen is only 17% faster, but there's no way that's true. So what else do we need to know?
 
 ## What else to look into
 
 After a bit of reading I think I've identified the other factors that are important. Let's take a look at them.
-
 
 ### Clock speed
 
@@ -37,14 +34,13 @@ This is the speed in GHz and specifies the number of cycles per second. Back in 
 
 Basically how efficient the CPU is. For every cycle (which it will do more of per second as clock speed increases) how many instructions does the CPU complete? I don't see this stat described very often, but it seems like it would be handy to know.
 
-
 ### Cores
 
 This is the pretty easy to understand. Back when I was first learning about computers, processors only had a single core. Now almost all CPUs have multiple cores. Multiple cores are essentially the equivalent of multiple CPUs on one chip. While they won't matter for performance on individual tasks that aren't optimized for them, they are effectively a multiplier in terms of performance when it comes to multitasking, or any applications which can use multiple cores.
 
 ### Threads
 
-Threads are conceptually similar to cores, in that they are a kind of multiplier. However, while cores are actual physical components of the CPU and directly impact the workload it can manage, threads are a measure of the number of tasks that can be passed to the cores simultaneously. I get the impression that threads are important for multitasking, and have some performance benefits in general, but are less critical to evaluating performance for most workloads than cores.
+Threads are conceptually similar to cores, in that they are a kind of multiplier. However, while cores are actual physical components of the CPU and directly impact the workload it can manage, threads are a measure of the number of tasks that can be passed to the cores simultaneously. I get the impression that threads are important for multitasking, and have some performance benefits in general, but are less critical to evaluating performance for most workloads than cores. Fun additional tip: threads are sometimes referred to as "logical cores". For instance on [cpubenchmark](https://cpubenchmark.net).
 
 ### Cache
 
@@ -54,8 +50,18 @@ The cache is a small but very faster (much faster than RAM) amount of memory loc
 
 Some CPUs draw more power and generate more heat than others, that's certainly something to keep in mind even if it doesn't directly impact performance. Second, lots of CPUs these days have integrated graphics processors. Assuming you have an external GPU I don't think that will really matter. It seems like all Intel CPUs these days have some onboard graphics, while only AMD APUs do.
 
-
 ## Evaluation
 
 Having added in some more details around what matters for CPUs these days, I'll build a table with all of those stats (or as many as I can find) along with benchmarks for the processors.
 
+​
+| name                        | released   |   clockspeed (GHz) |   cores |   threads per core |   cache (MB) | passmark multithread   | passmark single thread   | passmark cross platform   |   cores x threads |
+|:----------------------------|:-----------|-------------------:|--------:|-------------------:|-------------:|:-----------------------|:-------------------------|:--------------------------|------------------:|
+| 10th gen core i5 laptop cpu | 2019 Q2    |                3.6 |       2 |                  2 |          6   | 7834.0                 | 2404.0                   | 12279.0                   |                 4 |
+| Ryzen 7 1700X desktop cpu   | 2017 Q1    |                3.8 |       4 |                  2 |         16   | 15606.0                | 2064.0                   | 23818.0                   |                 8 |
+| Pentium G3258 desktop cpu   | 2014 Q2    |                3.2 |       2 |                  1 |          3   | 2183.0                 | 1790.0                   | 5773.0                    |                 2 |
+| i5 7200U laptop cpu         | 2016 Q4    |                2.5 |       1 |                  2 |          3   | 3330.0                 | 1711.0                   | 4629.0                    |                 2 |
+| Athlon II X2 desktop cpu    | 2009 Q2    |                2.9 |       2 |                  1 |          2   | 981.0                  | 1068.0                   | 2595.0                    |                 2 |
+| i3 4005U laptop CPU         | 2014 Q1    |                1.7 |       1 |                  2 |          3   | 1671.0                 | 916.0                    | 3469.0                    |                 2 |
+| Raspi 4 ARM Cortex-A72      | 2016       |                1.5 |       4 |                  1 |          1   | Unknown                | Unknown                  | Unknown                   |                 4 |
+| Raspi 3 ARM Cortex-A53      | 2012       |                1.2 |       4 |                  1 |          0.5 | Unknown                | Unknown                  | Unknown                   |                 4 |
