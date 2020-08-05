@@ -9,6 +9,8 @@ This guide is intended to be useful for anyone trying to get set up for data sci
 
 *edit 2020-02-17* - I realized I wanted make as well, so I added a section on that. Also made note of an issue with launching interactive python from git bash, as well as solutions.
 
+*edit 2020-08-04* - I started using pylance for a python language server, discovered SQL formatter, and switched to the regular Vim plugin.
+
 1. TOC
 {:toc}
 
@@ -33,6 +35,7 @@ What makes VS code so great is all its extensions. There are a few that require 
 * markdownlint gives style suggestions when writing markdown files (like this guide!)
 * Material icon theme makes the icons in the file explorer a little nicer
 * Python is pretty core for this for obvious reasons
+* Pylance is a new language server for Visual Studio, it offers nicer autocomplete and seems worth using.
 * Visual Studio Intellicode gives better code completion than the built in one.
 
 ### Finish up later
@@ -201,7 +204,15 @@ The first time you click it it will take a while, and do some installations in t
 
 First type in the path to the server, optionally add the name of the specific database. If you use your windows credentials to connect you can use integrated, which is nice. Finally, give it a nice name.
 
+Additionally, SQL Formatter is a nice extension that will clean up your SQL formatting. Worth checking out.
+
 #### Vim integration
+
+##### Update
+
+I'll keep the neovim instructions below in case I decide to go back, but for now I'm actually finding the default Vim plugin pretty functional, so try just installing the base Vim extension instead of jumping through all these hoops first if you want to use Vim bindings.
+
+##### Original note
 
 If you don't know what vim is, or do know and are scared of it, just skip this step. If you've trained yourself to use vim keyboard shortcuts though, you're definitely going to want that in your editor. Previously I was using the Vim extension, which was decent, but I did find a little laggy. Recently I've switched to neovim. It takes a little more up front configuration, but ultimately gives a nicer experience. For one thing, it's more responsive. For another, when in insert mode all the regular VS code shortcuts work. Finally, when you enter commands they show up in the big box at the top of the VS code window like other VS code commands, rather than down in the tiny bar at the bottom. That's particularly nice when you're trying to write out a big find replace or something.
 
