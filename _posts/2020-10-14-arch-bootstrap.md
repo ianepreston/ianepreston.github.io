@@ -203,6 +203,7 @@ The next section sets up some system based flags
 SYS_ARCH=$(uname -m) # Architecture (x86_64)
 UEFI=0
 KEYMAP="us"
+WIFI=0
 ```
 
 ```uname``` returns system information, and the ```-m``` flag specifies to return the machine hardware. As the comment above describes this will likely return ```x86_64```. Later in the script we'll check if the system is [UEFI](https://en.wikipedia.org/wiki/Unified_Extensible_Firmware_Interface) or BIOS.
@@ -357,7 +358,18 @@ check_boot_system() {
 
 The purpose of this section is to [verify the boot mode](https://wiki.archlinux.org/index.php/installation_guide#Verify_the_boot_mode). Pretty much any system I can imagine installing on these days will be UEFI, but it doesn't hurt to check. I'm not totally sure what the first little bit is doing, and I don't have a mac to test. The ```-r``` flag is to remove a module from the kernel, rather than add it like the normal command. ```modprobe -q efivarfs``` will add the ```efivarfs``` module to the kernel, and fail quietly if it can't find that module (that's the ```-q``` flag). As described in the install guide, if you have a ```/sys/firmware/efi/``` directory, which is what the first block of the second if statement is checking, then your system is EFI. The next part describes what it's going to do (mount efivarfs if it's not already mounted), but let's dig into how it does that. ```-z``` returns true if the length of an evaluated string is zero. ```mount``` without any arguments returns all mountpoints in the system. We pipe that into ```grep``` which will return ```/sys/firmwar/efi/efivars``` if it's mounted and an empty string if not, which accomplishes the goal. The last part of the script sets the variable UEFI to identify if the system is EFI or BIOS.
 
-The next big block was called ```check_connection``` but given I'm grabbing this script off the internet in the first place I don't see why I have to check my connection after, so I'm going to skip it.
+Next up is ```check_wifi```
+
+```bash
+check_wifi() {
+  has_wifi=($(ls /sys/class/net | grep wlan))
+  if [ -n "$has_wifi" ]; then
+    WIFI=1
+  fi
+}
+```
+
+As per the [Arch Wikie](https://wiki.archlinux.org/index.php/Network_configuration#Listing_network_interfaces) ```/sys/class/net``` lists all network devices. So if I list that directory and match on ```wlan``` then I know there's a wireless device. I'll use this to determine whether or not to install wireless tools when loading software.
 
 ### Prompts / User interaction
 
@@ -578,8 +590,13 @@ install_base_system() {
   [[ $? -ne 0 ]] && error_msg "Installing base system to /mnt failed. Check error messages above. Part 4."
 
   # Install networking tools
-  pacstrap /mnt dialog networkmanager networkmanager-openvpn iw wireless_tools wpa_supplicant |& tee -a "${LOG}"
+  pacstrap /mnt dialog networkmanager networkmanager-openvpn |& tee -a "${LOG}"
   [[ $? -ne 0 ]] && error_msg "Installing base system to /mnt failed. Check error messages above. Part 5."
+  
+  if [[ $WIFI == 1 ]]; then
+    pacstrap /mnt iwd |& tee -a "${LOG}"
+    [[ $? -ne 0 ]] && error_msg "Installing base system to /mnt failed. Check error messages above. Wifi"
+  fi
 
   # Remaining misc tools
   pacstrap /mnt reflector git gvim openssh ansible terminus-font systemd-swap |& tee -a "${LOG}"
