@@ -5,6 +5,14 @@
 
 ## Introduction
 
+### edit 2020-10-20
+
+As I use this script to provision machines I'm going to end up making edits to it. I'm not going to edit this post every time I do that. The latest version of the provision script is always available [here](https://github.com/ianepreston/recipes/blob/master/arch_bootstrap/bootstrap.sh).
+
+I've also updated the TLDR section a bit based on some experience from the install. That part I will update if I make changes since I use it for reference when building systems.
+
+### Actual Introduction
+
 I've installed a lot of operating systems a lot of times. The goal of writing out this post is to force me to really think about and clearly document a reproducible workflow for building my workstation.
 
 A secondary goal is to get better at bash.
@@ -35,13 +43,40 @@ That should work, try pinging something just to be safe.
 
 ### Make sure partitions are set up
 
-I'm a wuss and don't trust a script to actually create partitions. ```lsblk``` will tell you what disks you have. If you need to create/delete partitions before proceeding use ```cfdisk /dev/sd<letter>``` to create them. If it's a completely blank hard drive and you need to create a boot partition make one at the beginning of the disk with 500M of space in ```cfdisk``` and then run ```mkfs.vfat -F32 /dev/sd<letter>1``` to format it. There's probably a cleaner way to clean out the LVMs this script creates but for now it's easier for me to just blow them away in ```cfdisk``` and create a fresh partition to install over.
+I'm a wuss and don't trust a script to actually create partitions. ```lsblk``` will tell you what disks you have. If you need to create/delete partitions before proceeding use ```cfdisk /dev/sd<letter>``` to create them. If it's a completely blank hard drive and you need to create a boot partition make one at the beginning of the disk with 500M of space in ```cfdisk``` and then run ```mkfs.vfat -F32 /dev/sd<letter>1``` to format it. There's probably a cleaner way to clean out the LVMs this script creates but for now it's easier for me to just blow them away in ```cfdisk``` and create a fresh partition to install over. *edit: I got braver. The new script has an option to just wipe the whole disk if you want.*
 
 ### Run the script
 
 ```bash
 bash <(curl -fsSL http://bootstrap.ianpreston.ca)
 ```
+
+### Post install
+
+* Get the Wifi going again. It's a different command than you use from the installer:
+
+```bash
+nmcli device wifi connect <SSID> password <password>
+```
+
+* Set up ssh keys - plug in the USB
+
+```bash
+lsblk  # find where the partition with the keys is stored
+mkdir ssh  # make a mount point
+sudo mount /dev/sd<something> ssh
+cp -R ssh ssh_local  # Have to set permissions on keys (stupid NTFS)
+cd ssh_local/CA
+chmod 600 host_ca
+chmod 600 user_ca
+cd ../
+chmod +x setup_host.sh
+chmod +x setup_user.sh
+sudo ./setup_host.sh
+./setup_user.sh
+```
+
+After this point you should be able to run ansible to complete the setup.
 
 ## Setting up for testing
 
