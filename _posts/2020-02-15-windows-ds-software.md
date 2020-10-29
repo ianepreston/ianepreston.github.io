@@ -11,22 +11,30 @@ This guide is intended to be useful for anyone trying to get set up for data sci
 
 *edit 2020-08-04* - I started using pylance for a python language server, discovered SQL formatter, and switched to the regular Vim plugin.
 
+*edit 2020-10-28* - Add instructions for clearing out an old install, do everything as a user level install. I cleaned up some other instructions as I went through as well.
+
 1. TOC
 {:toc}
 
 ## Install VS Code
 
-First we need an editor to actually work in. I'm a huge fan of VS code for this. It's lightweight, extensible, free and open source, and very actively developed. Every month there's a new release with some fancy thing that makes my life easier. 
+First we need an editor to actually work in. I'm a huge fan of VS code for this. It's lightweight, extensible, free and open source, and very actively developed. Every month there's a new release with some fancy thing that makes my life easier.
 
 ### App installation
 
-Head to the [VS code download page](https://code.visualstudio.com/download#) and pick the Win64 user installer
+Head to the [VS code download page](https://code.visualstudio.com/download#) and pick the Win64 user installer.
 
 Go through the install process, I think all the defaults are fine, so just keep hitting next. You can optionally add in things like "Add open with code action to Windows Explorer". It won't directly impact the rest of what we're doing, just integrates code with the rest of your desktop a little more fully.
 
-### Basic extensions
+You can sign in with either a GitHub or Microsoft account to enable setting sync. If you use VS code on multiple machines, or just want to easily restore all your settings if you get a new computer I recommend enabling it. See the person icon in the lower left corner.
 
-What makes VS code so great is all its extensions. There are a few that require some configuration so I'll address them later, here are some out of the box ones that are great:
+![settings sync](/images/windows_ds_software/code_01.png "settings sync")
+
+On the work machine I'm testing this guide on I'm getting a settings sync error, even though the same install is syncing on my home machine. I love computers. Oh well, it means I'll get to really walk through a fresh install for this guide.
+
+### Extensions
+
+What makes VS code so great is all its extensions. Here are some that are great:
 
 * Bracket Pair Colorizer 2 colour codes your brackets. Super helpful for debugging.
 * Dracula Official is a nice dark theme. The Material themes are also nice.
@@ -36,7 +44,11 @@ What makes VS code so great is all its extensions. There are a few that require 
 * Material icon theme makes the icons in the file explorer a little nicer
 * Python is pretty core for this for obvious reasons
 * Pylance is a new language server for Visual Studio, it offers nicer autocomplete and seems worth using.
-* Visual Studio Intellicode gives better code completion than the built in one.
+* Better TOML handles the config format of python packages
+* The Remote Development extension pack lets you run VS code on a local machine while developing on a remote system, Docker container, or WSL install.
+* SQL Formatter will clean up any sql queries you write
+* SQL Server (mssql) is very handy if you interact with SQL server. The first time you open this it will run a bunch of installers in the background.
+* Vim - Only install this if you know what Vim is and you want to use its keybindings. If you do this extension will make you very happy, if you don't it will make you very sad.
 
 ### Finish up later
 
@@ -46,7 +58,7 @@ There's more configuration to do in VS code, but prior to that let's set up the 
 
 Like any sort of coding work, data science is done best under version control, and git is the defacto standard for that. Bash is not as obviously essential to coding/data science, but it comes with git, and using it for everything rather than the Windows shells will make it easier to apply instructions from other guides in the future, since most of them will assume you're using bash. Plus I like bash way more than the command prompt or powershell.
 
-git does not require any special admin privileges to install (although for some reason uninstalling it seems to require admin, so be aware of that). Go to the [Git download page](https://git-scm.com/download/win) and Choose 64-bit Git for Windows Setup and run the installer. First part is to read (if you want) and accept the license:
+git does not require any special admin privileges to install. Go to the [Git download page](https://git-scm.com/download/win) and Choose 64-bit Git for Windows Setup and run the installer. First part is to read (if you want) and accept the license:
 
 ![](/images/windows_ds_software/git_01.png "git license")
 
@@ -58,11 +70,13 @@ On the components selection screen I deselect git gui because I only ever want t
 
 ![](/images/windows_ds_software/git_03.png "git components")
 
-Next you'll be prompted to make a start menu folder, just click next.
-
 The next thing you'll be prompted for is for the default editor. If you're comfortable with vim/nano/whatever you can change it to that. I'm going to use VS code because it's the editor I'll be using for everything else, and I'm going to add vim bindings to it anyway:
 
 ![](/images/windows_ds_software/git_04.png "git editor")
+
+Next we get to pick the default branch name for new repositories. Historically this has been "master" but most organizations are moving away from that. I'll pick "main".
+
+![](/images/windows_ds_software/git_045.png "default branch")
 
 At the next prompt leave it on the default, we want VS code and other tools to know git exists.
 
@@ -80,17 +94,29 @@ At the next prompt we again want the default. Windows and *NIX systems use diffe
 
 ![](/images/windows_ds_software/git_08.png "git line endings")
 
+For the default behaviour for git pull I'm fine with fast-forward or merge. If you have a different preference by all means go for it.
+
+![](/images/windows_ds_software/git_085.png "pull")
+
 Leave the console on MinTTY, it works nicer than the other. I thought you might need it to be the Windows default console to integrate with VS code but that is not the case. In fact it seems to break console integration with VS code. Go figure.
 
 ![](/images/windows_ds_software/git_09.png "git terminal")
 
-Finally I just left all the extra options on default.
+Using a credential manager means that once you've authenticated yourself for a repository you won't have to do it every time. Unless you're super paranoid leave this turned on.
 
-![](/images/windows_ds_software/git_10.png "git extras")
+![](/images/windows_ds_software/git_10.png "git credentials")
+
+I just left the extra options on default
+
+![](/images/windows_ds_software/git_11.png "extras")
+
+I'm going to try enabling this feature, not being able to open a python console in bash was annoying.
+
+![](/images/windows_ds_software/git_12.png)
 
 ### Customizing git
 
-There are a couple handy things that are useful to customize about git. For one, VS Code is going to make a .vscode folder anywhere we open a folder with it. We're never going to want to commit that file to version control, so we'll create a global gitignore file (as opposed to the more standard repository specific ones) and exclude that file. I got this idea from [this blog](https://julien.danjou.info/properly-managing-your-gitignore/), so credit there. In your ```%UserProfile%``` folder, create a file named ```.gitignore_global```. Regular windows explorer probaby won't like you making a file with that name, so from git bash in the same folder you can run ```touch .gitignore_global```, which will make an empty file. Then you can open that with notepad/vim/VScode to update it. Mine is pretty sparse right now, it just has one line:
+There are a couple handy things that are useful to customize about git. For one, VS Code is going to make a .vscode folder anywhere we open a folder with it. We're never going to want to commit that file to version control, so we'll create a global gitignore file (as opposed to the more standard repository specific ones) and exclude that file. I got this idea from [this blog](https://julien.danjou.info/properly-managing-your-gitignore/), so credit there. In your ```%UserProfile%\.config\git``` folder, create a file named ```ignore```. Mine is quite basic at this point:
 
 ```git
 *.vscode
@@ -98,10 +124,9 @@ There are a couple handy things that are useful to customize about git. For one,
 
 If you find your setup generates other files you'd like to ignore put them here, but don't use this file for language specific stuff like ```.ipynb-checkpoints```, leave that to project specific ```.gitignore``` files.
 
-
 The other thing that's nice to do is clean up your default prompt. Notably, git bash by default includes ```MINGW64``` in the prompt. I guess this is the ```$MSYSTEM$``` environment variable, but I can't imagine why I'd care to see that in my prompt. The other stuff it includes by default are pretty handy, but if you don't like them you can modify the same file I'm going to point to to update your setup.
 
-The file that contains your prompt information should be in either ```%UserProfile%\AppData\Local\Programs\Git\etc\profile.d\git-prompt.sh``` or ```C:\Program Files\Git\etc\profile.d\git-prompt.sh```. This is a standard bash script, so if you're familiar with bash scripting, or modifying your bashrc in Linux or Mac this will be familiar. If not, it's generally pretty readable. Make a backup of it and fiddle. To get rid of the ```MINGW64``` we just have to find the lines that say
+The file that contains your prompt information should be in either ```%UserProfile%\AppData\Local\Programs\Git\etc\profile.d\git-prompt.sh```. This is a standard bash script, so if you're familiar with bash scripting, or modifying your bashrc in Linux or Mac this will be familiar. If not, it's generally pretty readable. Make a backup of it and fiddle. To get rid of the ```MINGW64``` we just have to find the lines that say
 
 ```bash
 PS1="$PS1"'\[\033[35m\]'       # change to purple
@@ -122,7 +147,7 @@ This will actually work exactly the same as Linux, which is nice. GitHub has nic
 
 #### SSH note
 
-I had an old install of putty when I first set up git bash. Even though I told it to use OpenSSH I guess I still had putty set somewhere in my environment. I had to modify the ```GIT_SSH``` environment variable for my system to point to the git ssh utility, which in my case was at ```C:\Program Files\Git\usr\bin\ssh```.
+I had an old install of putty when I first set up git bash. Even though I told it to use OpenSSH I guess I still had putty set somewhere in my environment. I had to modify the ```GIT_SSH``` environment variable for my system to point to the git ssh utility, which in my case was at ```C:\Program Files\Git\usr\bin\ssh```. Most people shouldn't have to do this.
 
 ### Additional utilities
 
@@ -139,14 +164,6 @@ Wherever you installed git bash there should be a ```mingw64``` folder. My home 
 
 That was all I had to do to make the basic makefiles that I wanted to use. As noted above, if you want to actually build c packages or something your process will likely be more complex. For a great beginner friendly intro to makefiles in the context of python projects, check out [calm code](https://calmcode.io/makefiles/the-problem.html).
 
-
-### Console bug
-
-There's an issue with launching the regular python interpreter from git bash. You can read about it on this [stackoverflow thread](https://stackoverflow.com/questions/32597209/python-not-working-in-the-command-line-of-git-bash). Basically there are two easy options (without messing up your ability to easily use different conda environments)
-
-* instead of ```python``` call ```python -i``` to get an interactive shell
-* ```conda install ipython``` and use that instead. This is my preference as I prefer the ipython console anyway.
-
 ### Further reading
 
 The [main git page](https://git-scm.com/) has tons of resources. I've also collected a few that I found useful under my [Tagpacker page.](https://tagpacker.com/user/ian.preston?t=git)
@@ -155,7 +172,7 @@ The [main git page](https://git-scm.com/) has tons of resources. I've also colle
 
 Next up we install Miniconda to handle python and all its libraries for data science. You could go with Anaconda over Miniconda for a complete setup out of the box, but I want to do all my actual work in custom environments, so having all that stuff in the base environment is just bloat. Open up the link to the [Win64 MiniConda installer](https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe), download and run the installer.
 
-I've found that even if I do a user level install I still get prompted for admin escalation during environment management. Might as well do a system level install.
+We're avoiding using admin access so you can do this with even a locked down system so leave the option on "Just Me"
 
 ![](/images/windows_ds_software/conda_01.png "conda user")
 
@@ -163,115 +180,91 @@ Default install path should be fine.
 
 ![](/images/windows_ds_software/conda_02.png "conda path")
 
-Check the box to add Anaconda to the system PATH environment variable, this will allow you to use conda from git bash.
+Check the box to add Anaconda to the system PATH environment variable, this will allow you to use conda from git bash. I'm unchecking the box that sets conda as the default system python because I want to have a pure python install available through pyenv (more on that later).
 
 ![](/images/windows_ds_software/conda_03.png "conda syspath")
 
-Finally, open up git bash and run ```conda init bash```. You'll be prompted for admin privileges, but once you're done you should be all set to use conda commands from git bash.
+Finally, open up anaconda prompt and run ```conda init bash```. This will allow you to run ```conda``` commands from within bash. By default this will also activate the conda ```base``` environment whenever you open a terminal. We don't actually want that, so restart git bash to allow the first command to take effect and then run ```conda config --set auto_activate_base false```.
 
-There's one last thing we'll have to do. VS code expects ```activate``` to be the command used to activate a conda environment, but in git bash it's actually ```source activate```. What we do is add an alias in the bash profile so that running ```activate``` translates to ```source activate```.
-In ```%UserProfile%``` you might already have a file named ```.bash_profile``` from when you ran ```conda init bash```. Add a line with the alias below. Here's what my full file looks like:
+There's one last thing we'll have to do. The ```conda init bash``` command added some code that runs whenever you start a git bash terminal in order to allow you to run conda commands. That code is saved in ```~/.bash_profile```. It will look something like this:
 
 ```sh
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-eval "$('/c/ProgramData/Miniconda3/Scripts/conda.exe' 'shell.bash' 'hook')"
+eval "$('/c/Users/<your username>/Miniconda3/Scripts/conda.exe' 'shell.bash' 'hook')"
 # <<< conda initialize <<<
-alias activate="source activate"
 ```
 
-Note, if you don't already have the file, then similar to the global gitignore section, you can run ```touch ~/.bash_profile``` to create the file, and then update it in whichever editor you want. You only have to add the ```alias part```, if the conda initialize stuff isn't there don't worry about it. It wasn't on my home computer, it was on my work one. I'm not sure why.
+What happens there is that whenever you open bash it runs all the commands in ```.bash_profile``` first. VS code for some reason does not run this script when you open a bash prompt in the built in terminal. Instead it runs ```~/.bashrc``` because why should anything be easy? Here's the fix I'm using, thanks to [This StackOverflow post](https://stackoverflow.com/questions/57560017/stuck-when-setting-up-to-use-anaconda-with-vs-code-and-integrated-git-terminal).
+
+move ```.bash_profile``` to ```.bashrc``` with ```mv ~/.bash_profile ~/.bashrc```. Create a new ```~/.bash_profile``` file that just points to ```~/.bashrc``` so they'll stay in sync whether you're using regular git bash or VS code git bash. If you want to add anything else to your bash settings later just edit ```.bashrc```. So now in your home directory (%UserProfile%) create a ```.bash_profile``` file (either using ```touch .bash_profile``` from bash or in VS code, you won't be able to from Explorer) and put in the following lines:
+
+```sh
+if [ -f ~/.bashrc ]; then
+    source ~/.bashrc
+fi
+```
 
 That should take care of it for conda installation
 
 ### Actually building environments
 
-Conda environment management is a big separate topic. [Their documentation](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html) is really good, and I refer to it regularly. A write up on my particular environment management strategy will get linked in here if/when I write it up.
+Conda environment management is a big separate topic. [Their documentation](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html) is really good, and I refer to it regularly.
+
+## Install pyenv
+
+### Caveat
+
+These instructions work fine on my home computer. I'm having an issue doing it on my work machine. I have [an issue](https://github.com/pyenv-win/pyenv-win/issues/176) open on the pyenv-win github page. Also, if you have WSL just do your pure python stuff in there. [Hypermodern python](https://cjolowicz.github.io/posts/hypermodern-python-01-setup/) is a great guide for that.
+
+### Instructions
+
+Conda is used a lot in data science because it makes it easy to install python adjacent tools in a managed environment, and it can make it easier to install python libraries with c bindings like numpy. But sometimes you just want pure python, notably when developing libraries or packages. For that we turn to [pyenv-win](https://github.com/pyenv-win/pyenv-win). The install instructions on their page are good. They give a few options. Since I have git and I don't have any of their other listed installers I went with that approach. For convenience I'll list the steps I did here, but their page is the authoritative source on installing. Some of these commands have to be done from PowerShell so we might as well do the whole thing from there
+
+```powershell
+git clone https://github.com/pyenv-win/pyenv-win.git $HOME/.pyenv
+[System.Environment]::SetEnvironmentVariable('PYENV',$env:USERPROFILE + "\.pyenv\pyenv-win\","User")
+[System.Environment]::SetEnvironmentVariable('PYENV_HOME',$env:USERPROFILE + "\.pyenv\pyenv-win\","User")
+[System.Environment]::SetEnvironmentVariable('path', $HOME + "\.pyenv\pyenv-win\bin;" + $HOME + "\.pyenv\pyenv-win\shims;" + $env:Path,"User")
+```
+
+After closing powershell you should be able to access pyenv from any terminal. Open one (either powershell again or bash) and try running ```pyenv --version```. You should get the version of pyenv you installed back. Assuming that worked there's just one step left. From whatever terminal you're in run
+
+```bash
+cd ~
+pyenv rehash
+```
+
+NOTE: If you are running Windows 10 1905 or newer, you made need to disable the built-in Python launcher via Start > "Manage App Execution Aliases" and disabling the "App Installer" aliases for Python
 
 ## Back to VS code
-
-### Extra extensions
-
-These ones require a bit more configuration than the ones above, but I think they're worth it.
-
-#### SQL Server
-
-If you're getting data from a MSSQL database then this is great. It adds another icon on your sidebar where you can browse various databases in your organization. Great for a quick check on table structure. I think you can use it to actually write queries too, but I haven't fiddled with that.
-
-You can install it by searching for ```mssql``` in the extensions sidebar. Once it's installed you'll get a new icon on your sidebar at the bottom:
-
-The first time you click it it will take a while, and do some installations in the background. After that you can click the "Add Connection" button at the top and add a path to a database.
-
-First type in the path to the server, optionally add the name of the specific database. If you use your windows credentials to connect you can use integrated, which is nice. Finally, give it a nice name.
-
-Additionally, SQL Formatter is a nice extension that will clean up your SQL formatting. Worth checking out.
-
-#### Vim integration
-
-##### Update
-
-I'll keep the neovim instructions below in case I decide to go back, but for now I'm actually finding the default Vim plugin pretty functional, so try just installing the base Vim extension instead of jumping through all these hoops first if you want to use Vim bindings.
-
-##### Original note
-
-If you don't know what vim is, or do know and are scared of it, just skip this step. If you've trained yourself to use vim keyboard shortcuts though, you're definitely going to want that in your editor. Previously I was using the Vim extension, which was decent, but I did find a little laggy. Recently I've switched to neovim. It takes a little more up front configuration, but ultimately gives a nicer experience. For one thing, it's more responsive. For another, when in insert mode all the regular VS code shortcuts work. Finally, when you enter commands they show up in the big box at the top of the VS code window like other VS code commands, rather than down in the tiny bar at the bottom. That's particularly nice when you're trying to write out a big find replace or something.
-
-First, grab the [Neovim installer](https://github.com/neovim/neovim/wiki/Installing-Neovim) and extract it somewhere (maybe your home folder).
-
-Next install the Neo Vim extension, and hit the little cog beside it to open its configuration. Head down to the NeoVim path component and paste in the path to nvim.exe (should be in the bin folder that you just extracted). Restart VS code and you should have vim bindings. You could also add the ```bin``` folder from your download to your ```PATH```, definitely a good idea if you want to use neovim directly. You could go further and alias vim to neovim in git bash (just like in the last part of the miniconda installation instructions).
-
-The last part is to have Neovim use the system clipboard as its register so you can copy and paste between VS code and other applications.
-
-To do this you have to do a few things (at least that's how I got it working)
-First, create an init.vim file in ```%UserProfile%/AppData/Local/nvim```
-Mine looks like this:
-
-```bash
-set runtimepath+=~/vimfiles,~/vimfiles/after
-set packpath+=~/vimfiles
-source ~/_vimrc
-```
-
-then in ```%UserProfile%/_vimrc``` add the following line:
-
-```bash
-set clipboard+=unnamedplus
-```
-
-#### Remote development
-
-If you're planning to do "remote" development, where remote can also mean docker containers or anything running in WSL, you will want to install the remote development extension pack. You could pick and choose just the ones you need, or grab the extension that ships the whole pack. Not a big deal either way.
 
 ### User settings
 
 VS code comes mostly with sensible defaults, but there are a few things I like to change. In VS code hit ```F1``` and type ```Open settings (JSON)```. If you don't see that option (it didn't pop up for me the first time I tried it) just open settings and look for a setting that tells you to update it in ```settings.json```. Below are my settings, minus the stuff that just got added through configuring the extensions described above:
+
 
 ```json
 {
     "diffEditor.renderSideBySide": true,
     "workbench.editor.enablePreviewFromQuickOpen": false,
     "workbench.editor.enablePreview": false,
-    "git.autofetch": true,
-    "editor.suggestSelection": "first",
+    "workbench.colorTheme": "Dracula",
+    "workbench.iconTheme": "material-icon-theme",
     "editor.rulers": [88],
+    "editor.suggestSelection": "first",
     "editor.acceptSuggestionOnEnter": "off",
     "editor.minimap.enabled": false,
-    "explorer.confirmDelete": false,
-    "terminal.integrated.shell.windows": "C:\\Program Files\\Git\\bin\\bash.exe",
-    "terminal.integrated.env.windows": {
-        "CHERE_INVOKING": "1"
-    },
-    "terminal.integrated.shellArgs.windows": [
-        "-l"
-    ],
-    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
     "editor.lineNumbers": "relative",
-    "[python]": {
-        "editor.defaultFormatter": "ms-python.python"
-    },
+    "explorer.confirmDelete": false,
+    "editor.wordWrap": "on",
     "python.formatting.provider": "black",
     "python.linting.enabled": true,
     "python.linting.flake8Enabled": true,
+    "python.languageServer": "Pylance",
+    "git.confirmSync": false,
+    "git.autofetch": true,
+    "editor.codeActionsOnSave": null,
     "search.exclude": {
         "**/node_modules": true,
         "**/bower_components": true,
@@ -302,17 +295,81 @@ VS code comes mostly with sensible defaults, but there are a few things I like t
         "**/$tf": true,
         "**/node_modules": true,
         "venv": true
-    },
+    }
 }
 ```
 
-Most of the settings have fairly clear names, and if you put them in your ```settings.json``` you'll get a little mouseover tip that will tell you what they do. 
+Most of the settings have fairly clear names, and if you put them in your ```settings.json``` you'll get a little mouseover tip that will tell you what they do.
 
-**Note**: If your git bash is a user level install, or you picked somewhere else to install it you'll have to modify that path.
+While you can hand code in the option to have VS code use git bash it's probably easier to hit F1 again and select "Terminal: Select Default Shell" and choose it there. That will add a line to your settings that tells VS code to use git bash.
 
 ### Further Resources
 
 There's tons of stuff to learn about VS code to make it super handy. At a minimum, check out their [keyboard shortcuts](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf). I'm collecting other useful resources (with a decent amount of overlap with vim stuff) on [my tagpacker](https://tagpacker.com/user/ian.preston?t=vs_code).
+
+## Cleaning up an old install
+
+I wanted to test drive my instructions before passing them along to a colleague. In order to be sure they'd actually work the way I think they should I needed to clear out my old environment. I'll document my steps here. Hopefully this will be useful for anyone else looking to start a fresh environment on Windows.
+
+### Uninstall Apps
+
+Even if you installed a program as a user level install, you'll still be prompted for an Administrator password if you try and remove it from "Add/Remove Programs" in the control panel because... Windows. Running the actual uninstall exe file works fine though.
+
+For git this should be located at ```%UserProfile%\AppData\Local\Programs\Git\unins000.exe```. The uninstaller won't remove that folder itself so delete it after you've run it.
+
+VS code is in a similar location and follows a similar process ```%UserProfile%\AppData\Local\Programs\Microsoft VS Code\unins000.exe```.
+
+Miniconda as a user level install is in a slightly different place: ```%UserProfile%\Miniconda3\Uninstall-Miniconda3.exe``` You'll be prompted for an admin password a couple times, but if you click "no" it still seems to work, which is cool I guess. It will prompt you to reboot and when it comes back up you should be clear.
+
+### Remove miscellaneous crud
+
+Depending on how long you've been using your machine and how many different installs you've done you may or may not have these files. Here's a list of the things I checked for and then removed from my machine:
+
+* Orphan start menu entries in ```%UserProfile\AppData\Roaming\Microsoft\Windows\Start Menu\Programs```
+
+* Renmants in ```C:\ProgramData```. In my case I had a folder for jupyter
+
+### Remove config files
+
+If you like how your configuration is set up there's no major harm in keeping these things. I'm just removing them to make sure I have a fair comparison to how a fresh install would go. All paths in the list of stuff I've removed are relative to ```%UserProfile%```.
+
+* .conda
+* .config/configstore
+* .continuum
+* .cookiecutter_replay
+* .cookiecutters
+* .ipynb_checkpoints
+* .ipython
+* .jupyter
+* .matplotlib
+* .poetry
+* .software
+* .vscode
+* AppData\Local\Black
+* AppData\Local\ContinuumIO
+* AppData\Local\MikTeX
+* AppData\Local\nvim
+* AppData\Local\nvim-data
+* AppData\Local\pip
+* AppData\Local\pypa
+* AppData\Local\pypoetry
+* AppData\Local\Python Tools
+* AppData\Local\Spyder
+* AppData\Local\VSCodeVim
+* AppData\Local\Yarn
+* AppData\Roaming\Code
+* AppData\Roaming\jupyter
+* AppData\Roaming\pypoetry
+* AppData\Roaming\Python
+* .bash_history
+* .bash_profile
+* .flake8
+* .gitconfig
+* .git-credentials
+* .gitignore_global
+* .python_history
+
+As you can see, managing a python development environment creates a lot of crud on your system.
 
 ## Wrapping up
 
