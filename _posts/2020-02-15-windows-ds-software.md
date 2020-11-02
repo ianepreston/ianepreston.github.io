@@ -13,6 +13,8 @@ This guide is intended to be useful for anyone trying to get set up for data sci
 
 *edit 2020-10-28* - Add instructions for clearing out an old install, do everything as a user level install. I cleaned up some other instructions as I went through as well.
 
+*edit 2020-11-02* - Remove reference to pyenv-win. It's too much of a hassle. Unfortunately my best advice there is to get access to a *NIX environment somehow.
+
 1. TOC
 {:toc}
 
@@ -210,32 +212,6 @@ That should take care of it for conda installation
 ### Actually building environments
 
 Conda environment management is a big separate topic. [Their documentation](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html) is really good, and I refer to it regularly.
-
-## Install pyenv
-
-### Caveat
-
-These instructions work fine on my home computer. On my work computer it works ok except I get an error saying ```The system cannot find the path specified.``` before every command. Seems to run fine though. I opened [an issue](https://github.com/pyenv-win/pyenv-win/issues/176) on the pyenv-win github page but the maintainer was not very helpful (which is their right, we're all volunteers). Also, if you have WSL just do your pure python stuff in there. [Hypermodern python](https://cjolowicz.github.io/posts/hypermodern-python-01-setup/) is a great guide for that.
-
-### Instructions
-
-Conda is used a lot in data science because it makes it easy to install python adjacent tools in a managed environment, and it can make it easier to install python libraries with c bindings like numpy. But sometimes you just want pure python, notably when developing libraries or packages. For that we turn to [pyenv-win](https://github.com/pyenv-win/pyenv-win). The install instructions on their page are good. They give a few options. Since I have git and I don't have any of their other listed installers I went with that approach. For convenience I'll list the steps I did here, but their page is the authoritative source on installing. Some of these commands have to be done from PowerShell so we might as well do the whole thing from there
-
-```powershell
-git clone https://github.com/pyenv-win/pyenv-win.git $HOME/.pyenv
-[System.Environment]::SetEnvironmentVariable('PYENV',$env:USERPROFILE + "\.pyenv\pyenv-win\","User")
-[System.Environment]::SetEnvironmentVariable('PYENV_HOME',$env:USERPROFILE + "\.pyenv\pyenv-win\","User")
-[System.Environment]::SetEnvironmentVariable('path', $HOME + "\.pyenv\pyenv-win\bin;" + $HOME + "\.pyenv\pyenv-win\shims;" + $env:Path,"User")
-```
-
-After closing powershell you should be able to access pyenv from any terminal. Open one (either powershell again or bash) and try running ```pyenv --version```. You should get the version of pyenv you installed back. Assuming that worked there's just one step left. From whatever terminal you're in run
-
-```bash
-cd ~
-pyenv rehash
-```
-
-NOTE: If you are running Windows 10 1905 or newer, you made need to disable the built-in Python launcher via Start > "Manage App Execution Aliases" and disabling the "App Installer" aliases for Python
 
 ## Back to VS code
 
