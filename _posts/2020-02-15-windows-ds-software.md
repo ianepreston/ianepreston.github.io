@@ -215,7 +215,7 @@ Conda environment management is a big separate topic. [Their documentation](http
 
 ### Caveat
 
-These instructions work fine on my home computer. I'm having an issue doing it on my work machine. I have [an issue](https://github.com/pyenv-win/pyenv-win/issues/176) open on the pyenv-win github page. Also, if you have WSL just do your pure python stuff in there. [Hypermodern python](https://cjolowicz.github.io/posts/hypermodern-python-01-setup/) is a great guide for that.
+These instructions work fine on my home computer. On my work computer it works ok except I get an error saying ```The system cannot find the path specified.``` before every command. Seems to run fine though. I opened [an issue](https://github.com/pyenv-win/pyenv-win/issues/176) on the pyenv-win github page but the maintainer was not very helpful (which is their right, we're all volunteers). Also, if you have WSL just do your pure python stuff in there. [Hypermodern python](https://cjolowicz.github.io/posts/hypermodern-python-01-setup/) is a great guide for that.
 
 ### Instructions
 
