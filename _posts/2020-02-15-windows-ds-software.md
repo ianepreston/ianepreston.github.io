@@ -51,6 +51,7 @@ What makes VS code so great is all its extensions. Here are some that are great:
 * SQL Formatter will clean up any sql queries you write
 * SQL Server (mssql) is very handy if you interact with SQL server. The first time you open this it will run a bunch of installers in the background.
 * Vim - Only install this if you know what Vim is and you want to use its keybindings. If you do this extension will make you very happy, if you don't it will make you very sad.
+* Editorconfig - Lets VS Code parse [editorconfig](https://editorconfig.org/) files.
 
 ### Finish up later
 
