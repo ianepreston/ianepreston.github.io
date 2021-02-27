@@ -2,7 +2,7 @@
 from datetime import datetime
 import re, os, logging
 from nbdev import export2html
-from nbdev.export2html import Config, Path, _re_digits
+from nbdev.export2html import Config, Path
 from fast_template import rename_for_jekyll
 
 warnings = set()
